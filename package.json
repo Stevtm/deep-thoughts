@@ -1,26 +1,27 @@
 {
-	"name": "mern-server",
+	"name": "deep-thoughts",
 	"version": "1.0.0",
 	"description": "",
-	"main": "./server/server.js",
+	"main": "server/server.js",
 	"scripts": {
-		"start": "node ./server/server.js",
-		"watch": "nodemon",
-		"seed": "node ./server/seeders/seeds.js"
+		"start": "node server/server.js",
+		"develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+		"install": "cd server && npm i && cd ../client && npm i",
+		"seed": "cd server && npm run seed",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Stevtm/deep-thoughts.git"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
-		"apollo-server-express": "^2.25.2",
-		"bcrypt": "^4.0.1",
-		"express": "^4.17.1",
-		"faker": "^4.1.0",
-		"graphql": "^15.5.1",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.9.9"
+	"bugs": {
+		"url": "https://github.com/Stevtm/deep-thoughts/issues"
 	},
+	"homepage": "https://github.com/Stevtm/deep-thoughts#readme",
 	"devDependencies": {
-		"nodemon": "^2.0.3"
+		"concurrently": "^6.2.0"
 	}
 }
