@@ -37,8 +37,16 @@ function App() {
 							<Route exact path="/" component={Home}></Route>
 							<Route exact path="/login" component={Login}></Route>
 							<Route exact path="/signup" component={Signup}></Route>
-							<Route exact path="/profile" component={Profile}></Route>
-							<Route exact path="/thought" component={SingleThought}></Route>
+							<Route
+								exact
+								path="/profile/:username?"
+								component={Profile}
+							></Route>
+							<Route
+								exact
+								path="/thought/:id"
+								component={SingleThought}
+							></Route>
 
 							<Route component={NoMatch}></Route>
 						</Switch>
