@@ -1,15 +1,11 @@
 import React from "react";
-import {
-	ApolloProvider,
-	ApolloClient,
-	InMemoryCache,
-	createHttpLink,
-} from "@apollo/client";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { setContext } from "@apollo/client/link/context";
+import { ApolloProvider } from "@apollo/client";
+import ApolloClient from "apollo-boost";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
@@ -17,21 +13,17 @@ import SingleThought from "./pages/SingleThought";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 
-const httpLink = createHttpLink({
-	uri: "/graphql",
-});
-
-const authLink = setContext((_, { headers }) => {
-	const token = localStorage.getItem("id_token");
-	return {
-		...headers,
-		authorization: token ? `Bearer ${token}` : "",
-	};
-});
-
 const client = new ApolloClient({
-	link: authLink.concat(httpLink),
-	cache: new InMemoryCache(),
+	request: (operation) => {
+		const token = localStorage.getItem("id_token");
+
+		operation.setContext({
+			headers: {
+				authorization: token ? `Bearer ${token}` : "",
+			},
+		});
+	},
+	uri: "/graphql",
 });
 
 function App() {
@@ -42,21 +34,13 @@ function App() {
 					<Header />
 					<div className="container">
 						<Switch>
-							<Route exact path="/" component={Home}></Route>
-							<Route exact path="/login" component={Login}></Route>
-							<Route exact path="/signup" component={Signup}></Route>
-							<Route
-								exact
-								path="/profile/:username?"
-								component={Profile}
-							></Route>
-							<Route
-								exact
-								path="/thought/:id"
-								component={SingleThought}
-							></Route>
+							<Route exact path="/" component={Home} />
+							<Route exact path="/login" component={Login} />
+							<Route exact path="/signup" component={Signup} />
+							<Route exact path="/profile/:username?" component={Profile} />
+							<Route exact path="/thought/:id" component={SingleThought} />
 
-							<Route component={NoMatch}></Route>
+							<Route component={NoMatch} />
 						</Switch>
 					</div>
 					<Footer />
